@@ -1,0 +1,13 @@
+<p>cart works!</p>
+<div *ngIF="products.lenght > 0;else empty" class="container h-100 d-flex justify-content-center">
+    <ul>
+        <li *ngFor="let product of products">
+            <h3>{{product?.name}}</h3>
+            <p>{{product?.price}}</p>
+        </li>
+    </ul>
+    <p>Total : {{totalPrice}}</p>
+</div>
+<ng-template #empty>      
+    Empty cart!
+</ng-template>
