@@ -1,0 +1,9 @@
+.amount{
+    width: 3rem !important;
+    margin-left: 1rem;
+}
+
+.cart-img{
+    width: 100px;
+    height: 150px;
+}

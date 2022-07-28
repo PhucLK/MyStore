@@ -8,25 +8,50 @@ import Products from '../../assets/data.json'
 
 export class ProductService {
   products: Product[]
+  cart: Product[]
   constructor() {
-    this.products = []
+    const newProducts = Products.map(element => ({
+      ...element,
+      quantity: 0
+    }));
+    this.products = newProducts
+    if (localStorage.getItem("products")) {
+      this.cart = JSON.parse(localStorage.getItem("products")!)
+    } else {
+      this.cart = []
+    }
   }
 
   getProducts(): Product[] {
-    return Products
+    return this.products
   }
 
-  addProduct(product: Product) {
-    this.products.push(product)
+  addProduct(product: Product, quantity: number) {
+    const existingItem = this.cart.find(item => product.id === item.id)
+
+    if (existingItem) {
+      existingItem.quantity! = quantity
+    } else {
+      this.cart.push({ ...product, quantity: quantity })
+    }
+    localStorage.setItem("products", JSON.stringify(this.cart));
+
+  }
+
+  checkOut() {
+    this.cart = []
+    localStorage.removeItem("products");
   }
 
 
-  removeProduct(product: Product) {
-    this.products.filter(p => product.id !== p.id)
+  updateProduct(product: Product, quantity: number) {
+    const existingItem = this.cart.find(item => product.id === item.id)
+    existingItem!.quantity = quantity
+    localStorage.setItem("products", JSON.stringify(this.cart));
   }
 
   getCart() {
-    return this.products
+    return this.cart
   }
 
 }

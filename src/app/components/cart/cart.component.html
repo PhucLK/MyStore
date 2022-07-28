@@ -1,13 +1,44 @@
-<p>cart works!</p>
-<div *ngIF="products.lenght > 0;else empty" class="container h-100 d-flex justify-content-center">
-    <ul>
-        <li *ngFor="let product of products">
-            <h3>{{product?.name}}</h3>
-            <p>{{product?.price}}</p>
-        </li>
-    </ul>
-    <p>Total : {{totalPrice}}</p>
+<div *ngIf="products.length > 0;else empty" class="container d-flex justify-content-center">
+    <div>
+        <div class="d-flex m-4" *ngFor="let product of products">
+            <img class="cart-img" src={{product?.url}} />
+            <div class="align-self-center m-4">
+                <h3>{{product?.name}}</h3>
+                <p>{{product?.price | currency}}</p>
+                <div class="d-flex">
+                    <label for="amount">Amount</label>
+                    <input class="amount" type="number" min="1" [value]="product.quantity"
+                        (change)="inputChange(product.id,$any($event.target).value)" id="amount">
+                </div>
+            </div>
+        </div>
+
+        <h5 class="d-flex m-4">Total : {{totalPrice | currency}}</h5>
+    </div>
+    <div class="row m-5">
+        <div>
+            <form class="form-margin" #form="ngForm">
+                <h1> Checkout </h1>
+                <label>Full Name: </label><br />
+                <input class="mb-2" type='text' name='fullname' required minlength="6" placeholder="Enter Full Name"
+                    [(ngModel)]="fullName">
+                <br />
+                <label>Address: </label><br />
+                <input class="mb-2" type='text' name='address' required minlength="6" placeholder="Enter Address"
+                    [(ngModel)]="address">
+                <br />
+                <label>Credit Card Number: </label><br />
+                <input class="mb-2" type='text' name='creditCard' required minlength="16" maxlength="16"
+                    placeholder="Enter Credit Card" [(ngModel)]="creditCard">
+                <br />
+                <button routerLink="/confirm" [disabled]="form.invalid" type="button" (click)="checkOut()"
+                    class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+    </div>
 </div>
-<ng-template #empty>      
-    Empty cart!
+
+<ng-template #empty>
+    <h3 class="text-center">Empty cart</h3>
 </ng-template>

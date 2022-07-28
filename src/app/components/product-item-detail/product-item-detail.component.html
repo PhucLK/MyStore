@@ -1,10 +1,15 @@
-<div class="container h-100 d-flex justify-content-center">
-    <div>
+<div class="container d-flex justify-content-center">
+    <img class="img" src={{product?.url}} />
+    <div class="align-self-center m-5">
         <h3>{{product?.name}}</h3>
-        <p>{{product?.price}}</p>
-        <img class="img" src={{product?.url}} />
+        <p>{{product?.price | currency}}</p>
         <p>{{product?.description}}</p>
-        <button class="btn btn-primary m-2" (click)="addProduct()" >Add</button>
-        <a class="btn btn-primary" routerLink="">Back</a>
+        <select class="select" (change)="selectHandle($any($event.target).value)">
+            <option *ngFor="let i of numbers" [selected]="i == product?.quantity">{{i}}</option>
+        </select><br>
+        <button type="submit" (click)="addProduct($any($event.target).value)" class="btn btn-primary mt-2 btn-add">Add to
+            cart</button><br>
+        <a class="m-2" routerLink="">Back</a>
     </div>
+
 </div>
