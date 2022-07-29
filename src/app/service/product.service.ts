@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import Product from '../model/Product';
 import Products from '../../assets/data.json'
+import User from '../model/User';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,11 @@ import Products from '../../assets/data.json'
 export class ProductService {
   products: Product[]
   cart: Product[]
+  user: User = {
+    fullName: '',
+    address: '',
+    creditCard: ''
+  }
   constructor() {
     const newProducts = Products.map(element => ({
       ...element,
@@ -43,6 +49,13 @@ export class ProductService {
     localStorage.removeItem("products");
   }
 
+  getUser() {
+    return this.user
+  }
+
+  addUser(user: User) {
+    this.user = user
+  }
 
   updateProduct(product: Product, quantity: number) {
     const existingItem = this.cart.find(item => product.id === item.id)

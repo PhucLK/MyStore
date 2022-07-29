@@ -17,20 +17,16 @@
     </div>
     <div class="row m-5">
         <div>
-            <form class="form-margin" #form="ngForm">
-                <h1> Checkout </h1>
-                <label>Full Name: </label><br />
-                <input class="mb-2" type='text' name='fullname' required minlength="6" placeholder="Enter Full Name"
-                    [(ngModel)]="fullName">
-                <br />
-                <label>Address: </label><br />
-                <input class="mb-2" type='text' name='address' required minlength="6" placeholder="Enter Address"
-                    [(ngModel)]="address">
-                <br />
-                <label>Credit Card Number: </label><br />
-                <input class="mb-2" type='text' name='creditCard' required minlength="16" maxlength="16"
+            <form class="" #form="ngForm">
+                <label>Full Name : </label><br />
+                <input class="form-control mb-2" type='text' name='fullname' required minlength="6"
+                    placeholder="Enter Full Name" [(ngModel)]="fullName">
+                <label>Address : </label><br />
+                <input class="form-control mb-2" type='text' name='address' required minlength="6"
+                    placeholder="Enter Address" [(ngModel)]="address">
+                <label>Credit Card Number : </label><br />
+                <input class="form-control mb-2" type='text' name='creditCard' required minlength="16" maxlength="16"
                     placeholder="Enter Credit Card" [(ngModel)]="creditCard">
-                <br />
                 <button routerLink="/confirm" [disabled]="form.invalid" type="button" (click)="checkOut()"
                     class="btn btn-primary">Submit</button>
             </form>

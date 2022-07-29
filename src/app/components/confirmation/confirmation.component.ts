@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductService } from 'src/app/service/product.service';
 
 @Component({
   selector: 'app-confirmation',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfirmationComponent implements OnInit {
 
-  constructor() { }
+  totalPrice: number = 0
+  fullName: string = ''
+
+  constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
+    const user = this.productService.getUser()
+    this.totalPrice = user.total!
+    this.fullName = user.fullName
   }
+
 
 }
