@@ -1,6 +1,8 @@
 <div *ngIf="products.length > 0;else empty" class="container d-flex justify-content-center">
     <div>
+
         <div class="d-flex m-4" *ngFor="let product of products">
+
             <img class="cart-img" src={{product?.url}} />
             <div class="align-self-center m-4">
                 <h3>{{product?.name}}</h3>
@@ -11,23 +13,47 @@
                         (change)="inputChange(product.id,$any($event.target).value)" id="amount">
                 </div>
             </div>
+            <div class="remove-product">
+                <svg  (click)="removeProduct(product.id)" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+            </div>
         </div>
 
-        <h5 class="d-flex m-4">Total : {{totalPrice | currency}}</h5>
+        <h5 class="d-flex m-4">Total : {{user.total | currency}}</h5>
     </div>
     <div class="row m-5">
         <div>
             <form class="" #form="ngForm">
+
                 <label>Full Name : </label><br />
                 <input class="form-control mb-2" type='text' name='fullname' required minlength="6"
-                    placeholder="Enter Full Name" [(ngModel)]="fullName">
+                    (ngModelChange)="dataChanged($event,1)" placeholder="Enter Full Name" [(ngModel)]="user.fullName">
+                <div class="mb-3" *ngIf="isNotValidFullName">
+                    <span class="text-danger">
+                        Full Name can not contain number</span>
+                </div>
+
                 <label>Address : </label><br />
                 <input class="form-control mb-2" type='text' name='address' required minlength="6"
-                    placeholder="Enter Address" [(ngModel)]="address">
+                    (ngModelChange)="dataChanged($event,2)" placeholder="Enter Address" [(ngModel)]="user.address">
+                <div class="mb-3" *ngIf="isNotValidAddress">
+                    <span class="text-danger">
+                        Address can not contain number</span>
+                </div>
+
                 <label>Credit Card Number : </label><br />
                 <input class="form-control mb-2" type='text' name='creditCard' required minlength="16" maxlength="16"
-                    placeholder="Enter Credit Card" [(ngModel)]="creditCard">
-                <button routerLink="/confirm" [disabled]="form.invalid" type="button" (click)="checkOut()"
+                    (ngModelChange)="dataChanged($event,3)" placeholder="Enter Credit Card"
+                    [(ngModel)]="user.creditCard">
+                <div class="mb-3" *ngIf="isNotValidCreditCard">
+                    <span class="text-danger">
+                        Credit Card Number can not contain letter</span>
+                </div>
+
+                <button routerLink="/confirmation" [disabled]="invalid" type="button" (click)="checkOut()"
                     class="btn btn-primary">Submit</button>
             </form>
         </div>

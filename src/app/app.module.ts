@@ -10,6 +10,9 @@ import { ProductItemDetailComponent } from './components/product-item-detail/pro
 import { ProductItemComponent } from './components/product-item/product-item.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgToastModule } from 'ng-angular-popup' 
 
 @NgModule({
   declarations: [
@@ -27,6 +30,9 @@ import { RouterModule } from '@angular/router';
     AppRoutingModule,
     FormsModule,
     RouterModule.forRoot([]),
+    HttpClientModule,
+    BrowserAnimationsModule,
+    NgToastModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -14,3 +14,7 @@ ul {
 .btn-add, select {
     width: 6.8rem ;
 }
+
+.alert{
+    display: none;
+}

@@ -14,6 +14,41 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-<!-- ## Running unit tests
+## Routing in Application
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io). -->
+http://localhost:4200/ : View all products
+
+http://localhost:4200/products/:id : View a detail product
+
+http://localhost:4200/cart : view product in cart
+
+http://localhost:4200/confirmation : Display order information of user
+
+## Components
+
+### ProductListComponent
+### ProductItemComponent
+### ProductItemDetailComponent
+### CartComponent
+### ComfirmationComponent
+### HeaderComponent
+### ServiceComponent
+
+## Models
+
+Product = {
+    id: number,
+    name: string,
+    price: number,
+    url: string,
+    description: string,
+    quantity?: number
+}
+
+User = {
+    fullName: string,
+    address: string,
+    creditCard: string,
+    total?: number,
+}
+

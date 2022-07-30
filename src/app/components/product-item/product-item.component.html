@@ -1,10 +1,10 @@
 <div class="item m-5">
     <div class="item-img">
-        <a routerLink="products/{{product?.id}}"><img class="img" src={{product?.url}} /></a>
+        <a routerLink="products/{{product.id}}"><img class="img" src={{product.url}} /></a>
     </div>
     <div class="text-center m-2">
-        <h5 class="tex-center">{{product?.name}}</h5>
-        <p class="tex-center">{{product?.price | currency}}</p>
+        <h5 class="tex-center">{{product.name}}</h5>
+        <p class="tex-center">{{product.price | currency}}</p>
         <select class="select" (change)="selectHandle($any($event.target).value)">
             <option [value]="i" *ngFor="let i of numbers">
                 {{i}}

@@ -2,10 +2,10 @@
     <div *ngFor="let product of products; let i = index">
         <div *ngIf="i % 2 == 0" class="">
             <div>
-                <app-product-item [product]="product"></app-product-item>
+                <app-product-item (addItemEvent)="addItem()" [product]="product"></app-product-item>
             </div>
             <div *ngIf="i + 1 < products.length">
-                <app-product-item [product]="products[i + 1]"></app-product-item>
+                <app-product-item (addItemEvent)="addItem()" [product]="products[i + 1]"></app-product-item>
             </div>
         </div>
     </div>

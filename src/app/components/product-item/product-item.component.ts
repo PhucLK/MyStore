@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import Product from 'src/app/model/Product';
 import { ProductService } from 'src/app/service/product.service';
 
@@ -8,27 +8,28 @@ import { ProductService } from 'src/app/service/product.service';
   styleUrls: ['./product-item.component.css']
 })
 export class ProductItemComponent implements OnInit {
-  @Input() product?: Product
+  @Input() product!: Product
+  @Output() addItemEvent = new EventEmitter<boolean>();
+
   numbers: number[]
-  quantity : number = 1
-  selected : boolean = false
+  quantity: number = 1
+
   constructor(private productService: ProductService) {
     this.numbers = Array.from({ length: 10 }, (_, i) => i + 1)
-    this.selected = this.quantity ===  this.product?.quantity
-  }
-
-  selectHandle(quantity : number){
-    this.quantity = quantity
-    console.log(this.quantity);
-    
   }
 
   ngOnInit(): void {
 
   }
+  selectHandle(quantity: number) {
+    this.quantity = quantity
+    console.log(this.quantity);
+
+  }
 
   addProduct() {
-    this.productService.addProduct(this.product!,this.quantity)
+    this.productService.addProduct(this.product!, this.quantity)
+    this.addItemEvent.emit(true);
   }
 
   counter(i: number) {

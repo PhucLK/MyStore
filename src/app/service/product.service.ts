@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 import Product from '../model/Product';
-import Products from '../../assets/data.json'
 import User from '../model/User';
 
 @Injectable({
@@ -8,28 +10,28 @@ import User from '../model/User';
 })
 
 export class ProductService {
-  products: Product[]
   cart: Product[]
   user: User = {
     fullName: '',
     address: '',
-    creditCard: ''
+    creditCard: '',
+    total: 0
   }
-  constructor() {
-    const newProducts = Products.map(element => ({
-      ...element,
-      quantity: 0
-    }));
-    this.products = newProducts
+  constructor(private http: HttpClient) {
+    this.cart = []
+  }
+
+  ngOnInit(): void {
     if (localStorage.getItem("products")) {
       this.cart = JSON.parse(localStorage.getItem("products")!)
     } else {
       this.cart = []
     }
+
   }
 
-  getProducts(): Product[] {
-    return this.products
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>('http://localhost:4200/assets/data.json')
   }
 
   addProduct(product: Product, quantity: number) {
@@ -42,6 +44,12 @@ export class ProductService {
     }
     localStorage.setItem("products", JSON.stringify(this.cart));
 
+  }
+
+  removeProduct(id:number){
+    const removeIndex = this.cart.findIndex(item => id === item.id)
+    this.cart.splice(removeIndex,1)
+    localStorage.setItem("products", JSON.stringify(this.cart));
   }
 
   checkOut() {

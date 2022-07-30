@@ -6,10 +6,11 @@ import { ProductItemDetailComponent } from './components/product-item-detail/pro
 import { ProductListComponent } from './components/product-list/product-list.component';
 
 const routes: Routes = [
+  // { path: '**', component: ErrorComponent },
   { path: '', component: ProductListComponent },
   { path: 'products/:id', component: ProductItemDetailComponent },
   { path: 'cart', component: CartComponent },
-  { path: 'confirm', component: ConfirmationComponent },
+  { path: 'confirmation', component: ConfirmationComponent },
 
 ];
 

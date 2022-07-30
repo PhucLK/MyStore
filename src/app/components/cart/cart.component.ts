@@ -1,22 +1,33 @@
-import { Component, OnInit, ɵɵstylePropInterpolate1 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import Product from 'src/app/model/Product';
+import User from 'src/app/model/User';
 import { ProductService } from 'src/app/service/product.service';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
+
 export class CartComponent implements OnInit {
   products: Product[] = []
-  totalPrice: number = 0
-  quantity: number = 1
   numbers: number[]
-  selected: boolean = false
-  fullName: string = ''
-  address: string = ''
-  creditCard: string = ''
-  constructor(private productService: ProductService) {
+  user: User = {
+    fullName: '',
+    address: '',
+    creditCard: '',
+    total: 0
+  }
+  invalid: boolean = true
+  isNotValidFullName: boolean = false
+  isNotValidAddress: boolean = false
+  isNotValidCreditCard: boolean = false
+
+  constructor(
+    private toast: NgToastService,
+    private productService: ProductService
+  ) {
     this.numbers = Array.from({ length: 10 }, (_, i) => i + 1)
   }
 
@@ -26,12 +37,7 @@ export class CartComponent implements OnInit {
 
   checkOut() {
     this.productService.checkOut()
-    this.productService.addUser({
-      fullName: this.fullName,
-      address: this.address,
-      creditCard: this.creditCard,
-      total: this.totalPrice
-    })
+    this.productService.addUser(this.user)
   }
   inputChange(id: number, quantity: number) {
     const existingItem = this.products.find(item => id === item.id)
@@ -42,6 +48,34 @@ export class CartComponent implements OnInit {
   init() {
     this.products = this.productService.getCart()
     const sum = this.products.reduce((sum, p) => sum + p.price * (p.quantity! > 0 ? p.quantity! : 1), 0)
-    this.totalPrice = Math.round(sum * 100) / 100
+    this.user.total = Math.round(sum * 100) / 100
+  }
+
+  removeProduct(id: number) {
+    this.productService.removeProduct(id)
+    this.toast.error({ detail: "", summary: 'Item was removed from cart', duration: 1000 });
+  }
+
+  dataChanged(event: string, type: number) {
+    console.log(event);
+    let isNotValidFullName: boolean = false
+    let isNotValidAddress: boolean = false
+    let isNotValidCreditCard: boolean = false
+    if (type === 1) {
+      isNotValidFullName = /\d/g.test(event)
+    } else if (type === 2) {
+      isNotValidAddress = /\d/g.test(event)
+    } else if (type === 3) {
+      isNotValidCreditCard = /[<>a-zA-Z]+/g.test(event)
+    }
+
+    if (isNotValidFullName && isNotValidAddress && isNotValidCreditCard) {
+      this.invalid = false
+    }
+
+    this.isNotValidFullName = isNotValidFullName
+    this.isNotValidAddress = isNotValidAddress
+    this.isNotValidCreditCard = isNotValidCreditCard
+
   }
 }
