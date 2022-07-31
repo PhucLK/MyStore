@@ -57,19 +57,20 @@ export class CartComponent implements OnInit {
   }
 
   dataChanged(event: string, type: number) {
-    console.log(event);
     let isNotValidFullName: boolean = false
     let isNotValidAddress: boolean = false
     let isNotValidCreditCard: boolean = false
     if (type === 1) {
-      isNotValidFullName = /\d/g.test(event)
+      isNotValidFullName = /\d/.test(event)
     } else if (type === 2) {
-      isNotValidAddress = /\d/g.test(event)
+      isNotValidAddress = /\d/.test(event)
     } else if (type === 3) {
-      isNotValidCreditCard = /[<>a-zA-Z]+/g.test(event)
+      isNotValidCreditCard = /[<>a-zA-Z]+/.test(event)
     }
 
-    if (isNotValidFullName && isNotValidAddress && isNotValidCreditCard) {
+    if (!isNotValidFullName && this.user.fullName !== ''
+      && !isNotValidAddress && this.user.address !== ''
+      && !isNotValidCreditCard && this.user.creditCard !== '') {
       this.invalid = false
     }
 
