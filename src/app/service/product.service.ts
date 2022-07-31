@@ -10,7 +10,7 @@ import User from '../model/User';
 })
 
 export class ProductService {
-  cart: Product[]
+  cart: Product[] = []
   user: User = {
     fullName: '',
     address: '',
@@ -18,16 +18,10 @@ export class ProductService {
     total: 0
   }
   constructor(private http: HttpClient) {
-    this.cart = []
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem("products")) {
-      this.cart = JSON.parse(localStorage.getItem("products")!)
-    } else {
-      this.cart = []
-    }
-
+    this.getCart()
   }
 
   getProducts(): Observable<Product[]> {
@@ -46,9 +40,9 @@ export class ProductService {
 
   }
 
-  removeProduct(id:number){
+  removeProduct(id: number) {
     const removeIndex = this.cart.findIndex(item => id === item.id)
-    this.cart.splice(removeIndex,1)
+    this.cart.splice(removeIndex, 1)
     localStorage.setItem("products", JSON.stringify(this.cart));
   }
 
@@ -72,6 +66,11 @@ export class ProductService {
   }
 
   getCart() {
+    if (localStorage.getItem("products")) {
+      this.cart = JSON.parse(localStorage.getItem("products")!)
+    } else {
+      this.cart = []
+    }
     return this.cart
   }
 
