@@ -47,12 +47,17 @@ export class CartComponent implements OnInit {
 
   init() {
     this.products = this.productService.getCart()
+    this.caculateTotalPrice()
+  }
+
+  caculateTotalPrice() {
     const sum = this.products.reduce((sum, p) => sum + p.price * (p.quantity! > 0 ? p.quantity! : 1), 0)
     this.user.total = Math.round(sum * 100) / 100
   }
 
   removeProduct(id: number) {
     this.productService.removeProduct(id)
+    this.caculateTotalPrice()
     this.toast.error({ detail: "", summary: 'Item was removed from cart', duration: 1000 });
   }
 
